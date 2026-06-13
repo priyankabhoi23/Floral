@@ -5,7 +5,7 @@ export const products = [
     slug: "floral-hoodie",
     basePrice: 999,
     description: "Cozy pipe cleaner floral hoodies, hand-stitched with premium soft yarn and customized floral decorations.",
-    image: "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=800&auto=format&fit=crop", // placeholder, can replace with generated
+    image: "/floral_hoodie.png",
     trending: false,
     categories: ["apparel", "handmade"],
     options: {
@@ -39,7 +39,7 @@ export const products = [
     slug: "resin-keychain",
     basePrice: 399,
     description: "Alphabet and shaped resin keychains filled with real pressed flowers, gold flakes, and personalized name lettering.",
-    image: "https://images.unsplash.com/photo-1582139329536-e7284fece509?q=80&w=800&auto=format&fit=crop",
+    image: "/flower_lamp.png",
     trending: true,
     categories: ["resin", "accessories"],
     options: {

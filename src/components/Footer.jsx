@@ -20,8 +20,8 @@ export default function Footer() {
   return (
     <footer
       style={{
-        backgroundColor: "var(--bg-secondary)",
-        borderTop: "1px solid var(--border-color)",
+        backgroundColor: "#3b2a2a",
+        borderTop: "1px solid rgba(255, 255, 255, 0.08)",
         padding: "64px 0 32px 0",
         marginTop: "auto"
       }}
@@ -43,7 +43,7 @@ export default function Footer() {
                 display: "flex",
                 alignItems: "center",
                 gap: "8px",
-                color: "var(--text-dark)",
+                color: "#FFF9F6",
                 fontWeight: 700,
                 fontSize: "1.35rem"
               }}
@@ -51,7 +51,7 @@ export default function Footer() {
               <Flower style={{ color: "var(--primary)", width: "24px", height: "24px" }} fill="var(--primary)" />
               <span style={{ fontFamily: "var(--font-serif)" }}>BloomCraft</span>
             </Link>
-            <p style={{ color: "var(--text-medium)", fontSize: "0.9rem", lineHeight: "1.6" }}>
+            <p style={{ color: "#E2DCDA", fontSize: "0.9rem", lineHeight: "1.6" }}>
               Handcrafting everlasting memories with premium pipe cleaner floral apparel, resin preserves, and custom gifts. Designed by you, handmade with love.
             </p>
             <div style={{ display: "flex", gap: "12px", marginTop: "8px" }}>
@@ -65,7 +65,7 @@ export default function Footer() {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  color: "var(--primary)",
+                  color: "#3b2a2a",
                   boxShadow: "var(--shadow-sm)",
                   transition: "var(--transition-quick)"
                 }}
@@ -90,11 +90,11 @@ export default function Footer() {
 
           {/* Shop Links */}
           <div>
-            <h3 style={{ fontSize: "1.05rem", fontWeight: "600", marginBottom: "20px", letterSpacing: "0.5px" }}>Shop Categories</h3>
+            <h3 style={{ fontSize: "1.05rem", fontWeight: "600", marginBottom: "20px", letterSpacing: "0.5px", color: "#FFF9F6" }}>Shop Categories</h3>
             <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "12px" }}>
               {["Floral Hoodies", "Resin Keychains", "Custom Phone Cases", "Pressed Flower Frames", "Everlasting Bouquets"].map((item) => (
                 <li key={item}>
-                  <Link href="/shop" style={{ color: "var(--text-medium)", fontSize: "0.9rem", transition: "var(--transition-quick)" }} className="footer-link">
+                  <Link href="/shop" style={{ color: "#E2DCDA", fontSize: "0.9rem", transition: "var(--transition-quick)" }} className="footer-link">
                     {item}
                   </Link>
                 </li>
@@ -104,25 +104,25 @@ export default function Footer() {
 
           {/* Support / Quick Links */}
           <div>
-            <h3 style={{ fontSize: "1.05rem", fontWeight: "600", marginBottom: "20px", letterSpacing: "0.5px" }}>Experience</h3>
+            <h3 style={{ fontSize: "1.05rem", fontWeight: "600", marginBottom: "20px", letterSpacing: "0.5px", color: "#FFF9F6" }}>Experience</h3>
             <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "12px" }}>
               <li>
-                <Link href="/designer" style={{ color: "var(--text-medium)", fontSize: "0.9rem" }} className="footer-link">
+                <Link href="/designer" style={{ color: "#E2DCDA", fontSize: "0.9rem" }} className="footer-link">
                   Interactive Live Customizer
                 </Link>
               </li>
               <li>
-                <Link href="/about" style={{ color: "var(--text-medium)", fontSize: "0.9rem" }} className="footer-link">
+                <Link href="/about" style={{ color: "#E2DCDA", fontSize: "0.9rem" }} className="footer-link">
                   Our Handmade Story
                 </Link>
               </li>
               <li>
-                <a href="#" style={{ color: "var(--text-medium)", fontSize: "0.9rem" }} className="footer-link">
+                <a href="#" style={{ color: "#E2DCDA", fontSize: "0.9rem" }} className="footer-link">
                   Product Care Guide
                 </a>
               </li>
               <li>
-                <a href="#" style={{ color: "var(--text-medium)", fontSize: "0.9rem" }} className="footer-link">
+                <a href="#" style={{ color: "#E2DCDA", fontSize: "0.9rem" }} className="footer-link">
                   Shipping & Returns
                 </a>
               </li>
@@ -131,8 +131,8 @@ export default function Footer() {
 
           {/* Newsletter Signup */}
           <div>
-            <h3 style={{ fontSize: "1.05rem", fontWeight: "600", marginBottom: "20px", letterSpacing: "0.5px" }}>Join the Craft Club</h3>
-            <p style={{ color: "var(--text-medium)", fontSize: "0.9rem", marginBottom: "16px", lineHeight: "1.5" }}>
+            <h3 style={{ fontSize: "1.05rem", fontWeight: "600", marginBottom: "20px", letterSpacing: "0.5px", color: "#FFF9F6" }}>Join the Craft Club</h3>
+            <p style={{ color: "#E2DCDA", fontSize: "0.9rem", marginBottom: "16px", lineHeight: "1.5" }}>
               Subscribe to get notified about custom drops, limited edition flower restocks, and custom styling updates.
             </p>
             <form onSubmit={handleSubscribe} style={{ position: "relative" }}>
@@ -146,7 +146,9 @@ export default function Footer() {
                   paddingRight: "50px",
                   borderRadius: "var(--radius-full)",
                   fontSize: "0.9rem",
-                  border: "1px solid var(--border-color)",
+                  border: "1px solid rgba(255, 255, 255, 0.15)",
+                  backgroundColor: "rgba(255, 255, 255, 0.08)",
+                  color: "#FFF9F6",
                   boxShadow: "var(--shadow-sm)"
                 }}
               />
@@ -183,7 +185,7 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div
           style={{
-            borderTop: "1px solid var(--border-color)",
+            borderTop: "1px solid rgba(255, 255, 255, 0.08)",
             paddingTop: "24px",
             display: "flex",
             flexDirection: "column",
@@ -191,7 +193,7 @@ export default function Footer() {
             justifyContent: "space-between",
             gap: "16px",
             fontSize: "0.85rem",
-            color: "var(--text-light)"
+            color: "#C8BCBE"
           }}
           className="footer-bottom"
         >
@@ -206,7 +208,7 @@ export default function Footer() {
 
       <style jsx global>{`
         .footer-link:hover {
-          color: var(--primary) !important;
+          color: #FFF9F6 !important;
           padding-left: 4px;
         }
         @media (min-width: 600px) {

@@ -4,13 +4,19 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCart } from "@/context/CartContext";
-import { ShoppingBag, Menu, X, Flower } from "lucide-react";
+import { useAuth } from "@/context/AuthContext";
+import { ShoppingBag, Menu, X, Flower, User, LogOut } from "lucide-react";
+import LoginModal from "./LoginModal";
+import ProfileModal from "./ProfileModal";
 
 export default function Navbar() {
   const pathname = usePathname();
   const { getCartCount, setIsCartOpen } = useCart();
+  const { user, logout } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -130,7 +136,7 @@ export default function Navbar() {
             style={{
               display: "flex",
               alignItems: "center",
-              gap: "24px"
+              gap: "20px"
             }}
           >
             {/* Cart Button */}
@@ -142,8 +148,13 @@ export default function Navbar() {
                 alignItems: "center",
                 justifyContent: "center",
                 color: "var(--text-dark)",
-                padding: "8px"
+                padding: "8px",
+                cursor: "pointer",
+                background: "none",
+                border: "none",
+                transition: "color 0.2s ease"
               }}
+              className="cart-btn"
               aria-label="Open Cart"
             >
               <ShoppingBag style={{ width: "24px", height: "24px" }} />
@@ -151,8 +162,8 @@ export default function Navbar() {
                 <span
                   style={{
                     position: "absolute",
-                    top: "-2px",
-                    right: "-2px",
+                    top: "0px",
+                    right: "0px",
                     backgroundColor: "var(--primary)",
                     color: "white",
                     fontSize: "0.75rem",
@@ -171,9 +182,56 @@ export default function Navbar() {
             </button>
 
             {/* CTA Button */}
-            <Link href="/designer" className="btn-primary desktop-cta" style={{ display: "none", padding: "10px 20px", fontSize: "0.95rem" }}>
+            <Link href="/designer" className="btn-primary desktop-cta" style={{ display: "none", padding: "10px 24px", fontSize: "0.95rem", borderRadius: "24px" }}>
               Start Designing
             </Link>
+
+            {/* Auth Button */}
+            {user ? (
+              <button
+                onClick={() => setIsProfileModalOpen(true)}
+                style={{
+                  display: "none",
+                  alignItems: "center",
+                  gap: "8px",
+                  color: "var(--text-dark)",
+                  fontWeight: 600,
+                  fontSize: "0.95rem",
+                  padding: "8px 16px",
+                  borderRadius: "20px",
+                  backgroundColor: "var(--bg-secondary)",
+                  border: "1px solid var(--border-color)",
+                  transition: "all 0.2s ease",
+                  cursor: "pointer"
+                }}
+                className="desktop-menu auth-btn"
+              >
+                <User size={16} />
+                Profile
+              </button>
+            ) : (
+              <button
+                onClick={() => setIsLoginModalOpen(true)}
+                style={{
+                  display: "none",
+                  alignItems: "center",
+                  gap: "8px",
+                  color: "var(--text-dark)",
+                  fontWeight: 600,
+                  fontSize: "0.95rem",
+                  padding: "8px 16px",
+                  borderRadius: "20px",
+                  backgroundColor: "var(--bg-secondary)",
+                  border: "1px solid var(--border-color)",
+                  transition: "all 0.2s ease",
+                  cursor: "pointer"
+                }}
+                className="desktop-menu auth-btn"
+              >
+                <User size={16} />
+                Login
+              </button>
+            )}
 
             {/* Mobile Menu Toggle */}
             <button
@@ -224,6 +282,56 @@ export default function Navbar() {
               {link.name}
             </Link>
           ))}
+          
+          {/* Mobile Auth Button */}
+          {user ? (
+            <button
+              onClick={() => {
+                setIsProfileModalOpen(true);
+                handleLinkClick();
+              }}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "12px",
+                color: "var(--text-dark)",
+                fontWeight: "600",
+                fontSize: "1.25rem",
+                background: "none",
+                border: "none",
+                padding: 0,
+                textAlign: "left",
+                cursor: "pointer"
+              }}
+            >
+              <User size={24} />
+              Profile
+            </button>
+          ) : (
+            <button
+              onClick={() => {
+                setIsLoginModalOpen(true);
+                handleLinkClick();
+              }}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "12px",
+                color: "var(--text-dark)",
+                fontWeight: "600",
+                fontSize: "1.25rem",
+                background: "none",
+                border: "none",
+                padding: 0,
+                textAlign: "left",
+                cursor: "pointer"
+              }}
+            >
+              <User size={24} />
+              Login
+            </button>
+          )}
+
           <Link
             href="/designer"
             onClick={handleLinkClick}
@@ -252,7 +360,28 @@ export default function Navbar() {
             display: none !important;
           }
         }
+        
+        .auth-btn:hover {
+          background-color: var(--primary) !important;
+          color: white !important;
+          border-color: var(--primary) !important;
+        }
+
+        .cart-btn:hover {
+          color: var(--primary) !important;
+        }
       `}</style>
+      {/* Login Modal */}
+      <LoginModal 
+        isOpen={isLoginModalOpen} 
+        onClose={() => setIsLoginModalOpen(false)} 
+        onSuccess={() => setIsLoginModalOpen(false)} 
+      />
+      {/* Profile Modal */}
+      <ProfileModal 
+        isOpen={isProfileModalOpen} 
+        onClose={() => setIsProfileModalOpen(false)} 
+      />
     </>
   );
 }

@@ -1,0 +1,28 @@
+[
+  {
+    "id": "rose-flower",
+    "slug": "rose-flower",
+    "name": "rose flower",
+    "basePrice": 150,
+    "description": "hand made flower of pipe cleaner",
+    "image": "/image.png/",
+    "trending": false,
+    "categories": [
+      "handmade",
+      "flower"
+    ],
+    "options": {
+      "colors": null,
+      "sizes": null,
+      "shapes": null,
+      "models": null,
+      "flowers": null,
+      "palettes": null,
+      "backgrounds": null,
+      "customText": {
+        "enabled": false
+      },
+      "addOns": []
+    }
+  }
+]

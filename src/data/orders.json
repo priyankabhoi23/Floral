@@ -1,0 +1,94 @@
+[
+  {
+    "id": "ORD-1044",
+    "customer": "Priyanka Bhoi",
+    "email": "7057035335",
+    "product": "1x Floral Hoodie",
+    "amount": 1299,
+    "address": "8,Parijat Colony Sakri Road, Dhule, Dhule, Maharashtra - 424001",
+    "date": "2026-06-12",
+    "status": "Processing"
+  },
+  {
+    "id": "ORD-1043",
+    "customer": "Priyanka Bhoi",
+    "email": "7057035335",
+    "product": "3x Floral Hoodie, 1x Pressed Flower Phone Case, 1x jksnjk",
+    "amount": 16915,
+    "address": "8,Parijat Colony Sakri Road, Dhule, Dhule, Maharashtra - 424001",
+    "date": "2026-06-10",
+    "status": "Processing"
+  },
+  {
+    "id": "ORD-1042",
+    "customer": "Priya Sharma",
+    "email": "priya@email.com",
+    "product": "Floral Hoodie",
+    "amount": 1299,
+    "date": "2026-06-09",
+    "status": "Processing"
+  },
+  {
+    "id": "ORD-1041",
+    "customer": "Ananya Iyer",
+    "email": "ananya@email.com",
+    "product": "Resin Keychain",
+    "amount": 349,
+    "date": "2026-06-09",
+    "status": "Processing"
+  },
+  {
+    "id": "ORD-1040",
+    "customer": "Riya Mehta",
+    "email": "riya@email.com",
+    "product": "Pressed Flower Phone Case",
+    "amount": 599,
+    "date": "2026-06-08",
+    "status": "Shipped"
+  },
+  {
+    "id": "ORD-1039",
+    "customer": "Sneha Kapoor",
+    "email": "sneha@email.com",
+    "product": "Pressed Flower Resin Frame",
+    "amount": 1199,
+    "date": "2026-06-08",
+    "status": "Delivered"
+  },
+  {
+    "id": "ORD-1038",
+    "customer": "Kavya Nair",
+    "email": "kavya@email.com",
+    "product": "Floral Hoodie",
+    "amount": 1299,
+    "date": "2026-06-07",
+    "status": "Cancelled"
+  },
+  {
+    "id": "ORD-1037",
+    "customer": "Meera Joshi",
+    "email": "meera@email.com",
+    "product": "Resin Keychain",
+    "amount": 349,
+    "date": "2026-06-07",
+    "status": "Shipped"
+  },
+  {
+    "id": "ORD-1036",
+    "customer": "Divya Rao",
+    "email": "divya@email.com",
+    "product": "Pressed Flower Phone Case",
+    "amount": 599,
+    "date": "2026-06-06",
+    "status": "Delivered"
+  },
+  {
+    "id": "ORD-1035",
+    "customer": "Pooja Singh",
+    "email": "pooja@email.com",
+    "product": "Handmade Yarn Bouquet",
+    "amount": 799,
+    "date": "2026-06-06",
+    "status": "Processing"
+  }
+]

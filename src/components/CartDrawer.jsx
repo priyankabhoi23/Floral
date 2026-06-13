@@ -1,8 +1,11 @@
 "use client";
 
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { useCart } from "@/context/CartContext";
+import { useAuth } from "@/context/AuthContext";
 import { X, Plus, Minus, Trash2, ShoppingBag } from "lucide-react";
+import LoginModal from "./LoginModal";
+import CheckoutModal from "./CheckoutModal";
 
 export default function CartDrawer() {
   const {
@@ -13,6 +16,9 @@ export default function CartDrawer() {
     updateQuantity,
     getCartSubtotal
   } = useCart();
+  const { user } = useAuth();
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
 
   const drawerRef = useRef(null);
 
@@ -297,7 +303,11 @@ export default function CartDrawer() {
 
             <button
               onClick={() => {
-                alert(`Proceeding to checkout with total: ${formatPrice(getCartSubtotal())}\nThank you for choosing BloomCraft!`);
+                if (!user) {
+                  setIsLoginModalOpen(true);
+                } else {
+                  setIsCheckoutModalOpen(true);
+                }
               }}
               className="btn-primary"
               style={{
@@ -311,6 +321,22 @@ export default function CartDrawer() {
             </button>
           </div>
         )}
+
+        {/* Login Modal */}
+        <LoginModal 
+          isOpen={isLoginModalOpen} 
+          onClose={() => setIsLoginModalOpen(false)} 
+          onSuccess={() => {
+            setIsLoginModalOpen(false);
+            setIsCheckoutModalOpen(true);
+          }} 
+        />
+        
+        {/* Checkout Modal */}
+        <CheckoutModal 
+          isOpen={isCheckoutModalOpen}
+          onClose={() => setIsCheckoutModalOpen(false)}
+        />
       </div>
     </div>
   );

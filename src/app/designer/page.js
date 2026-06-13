@@ -3,7 +3,7 @@
 import React, { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
-import { products } from "@/data/products";
+import { products as staticProducts } from "@/data/products";
 import { useCart } from "@/context/CartContext";
 import { Sparkles, ShoppingBag, Info, ArrowLeft, RefreshCw } from "lucide-react";
 
@@ -33,12 +33,40 @@ function DesignerContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { addToCart } = useCart();
+  const [products, setProducts] = useState(staticProducts);
 
   // Find product from query params or default to first
   const productParam = searchParams.get("product");
   const initialProduct = products.find((p) => p.id === productParam || p.slug === productParam) || products[0];
 
   const [selectedProduct, setSelectedProduct] = useState(initialProduct);
+
+  useEffect(() => {
+    async function loadProducts() {
+      try {
+        const res = await fetch("/api/products");
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data)) {
+            setProducts(data);
+            if (data.length > 0) {
+              const target = data.find((p) => p.id === productParam || p.slug === productParam);
+              if (target) {
+                setSelectedProduct(target);
+              } else {
+                setSelectedProduct(data[0]);
+              }
+            } else {
+              setSelectedProduct(null);
+            }
+          }
+        }
+      } catch (err) {
+        console.error("Failed to fetch products from API, using static products fallback:", err);
+      }
+    }
+    loadProducts();
+  }, [productParam]);
 
   // Customization States
   const [selectedColor, setSelectedColor] = useState(null);
@@ -57,6 +85,8 @@ function DesignerContent() {
   // Reset/Initialize states when product changes
   useEffect(() => {
     const p = selectedProduct;
+    if (!p) return;
+    
     setSelectedColor(p.options.colors ? p.options.colors[0] : null);
     setSelectedSize(p.options.sizes ? p.options.sizes[0] : null);
     setSelectedShape(p.options.shapes ? p.options.shapes[0] : null);
@@ -74,6 +104,19 @@ function DesignerContent() {
       .map((a) => a.id);
     setActiveAddOns(defaults);
   }, [selectedProduct]);
+
+  if (!selectedProduct) {
+    return (
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "60vh", color: "var(--text-medium)" }}>
+        <div style={{ textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: "16px" }}>
+          <Sparkles size={48} style={{ opacity: 0.2 }} />
+          <h2 style={{ fontSize: "1.8rem", color: "var(--text-dark)", fontFamily: "var(--font-serif)" }}>Designer Unavailable</h2>
+          <p>No customizable products are currently available in the catalog.</p>
+          <Link href="/" className="btn-primary" style={{ padding: "12px 24px", marginTop: "12px" }}>Return to Home</Link>
+        </div>
+      </div>
+    );
+  }
 
   // Handle switching product base
   const handleProductChange = (productId) => {

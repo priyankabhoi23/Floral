@@ -1,9 +1,8 @@
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/context/CartContext";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import CartDrawer from "@/components/CartDrawer";
+import { AuthProvider } from "@/context/AuthContext";
+import StoreShell from "@/components/StoreShell";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -19,7 +18,8 @@ const playfair = Playfair_Display({
 
 export const metadata = {
   title: "BloomCraft | Custom Handmade Gifts & Live 3D Preview",
-  description: "Create and customize your own floral hoodies, resin keychains, custom phone cases, and pressed flower frames with real-time pricing and live previews.",
+  description:
+    "Create and customize your own floral hoodies, resin keychains, custom phone cases, and pressed flower frames with real-time pricing and live previews.",
 };
 
 export default function RootLayout({ children }) {
@@ -33,12 +33,11 @@ export default function RootLayout({ children }) {
           flexDirection: "column",
         }}
       >
-        <CartProvider>
-          <Navbar />
-          <main style={{ flex: 1 }}>{children}</main>
-          <CartDrawer />
-          <Footer />
-        </CartProvider>
+        <AuthProvider>
+          <CartProvider>
+            <StoreShell>{children}</StoreShell>
+          </CartProvider>
+        </AuthProvider>
       </body>
     </html>
   );

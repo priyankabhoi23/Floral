@@ -39,6 +39,10 @@
   outline: none;
 }
 
+a {
+  text-decoration: none;
+}
+
 html, body {
   max-width: 100vw;
   min-height: 100vh;
@@ -105,6 +109,71 @@ h1, h2, h3, h4, h5, h6 {
 
 .pulse-slow {
   animation: pulse-slow 3s infinite ease-in-out;
+}
+
+/* Floating & Entrance Animations for Hero Collage */
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-12px) rotate(1deg); }
+}
+
+@keyframes float-medium {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-16px) rotate(-1.5deg); }
+}
+
+@keyframes float-fast {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes imageEnter {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.float-slow {
+  animation: float-slow 6s infinite ease-in-out;
+}
+
+.float-medium {
+  animation: float-medium 5s infinite ease-in-out;
+}
+
+.float-fast {
+  animation: float-fast 4s infinite ease-in-out;
+}
+
+.image-enter {
+  animation: imageEnter 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Staggered slide up animation for main headings */
+@keyframes slideUpWord {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.slide-up-word {
+  opacity: 0;
+  animation: slideUpWord 0.75s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.slide-up-word-primary {
+  opacity: 0;
+  animation: slideUpWord 0.75s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 /* Input styles */

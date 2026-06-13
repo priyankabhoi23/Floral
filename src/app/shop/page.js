@@ -1,15 +1,33 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { products } from "@/data/products";
+import { products as staticProducts } from "@/data/products";
 import { useCart } from "@/context/CartContext";
 import { Sparkles, SlidersHorizontal, ArrowRight, ShoppingCart } from "lucide-react";
 
 export default function Shop() {
   const { addToCart } = useCart();
+  const [products, setProducts] = useState(staticProducts);
   const [selectedFilter, setSelectedFilter] = useState("all");
   const [sortBy, setSortBy] = useState("default");
+
+  useEffect(() => {
+    async function loadProducts() {
+      try {
+        const res = await fetch("/api/products");
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data)) {
+            setProducts(data);
+          }
+        }
+      } catch (err) {
+        console.error("Failed to fetch products from API, using static products fallback:", err);
+      }
+    }
+    loadProducts();
+  }, []);
 
   // Filters categories based on products metadata
   const filters = [
@@ -147,15 +165,21 @@ export default function Shop() {
           </div>
         </div>
 
-        {/* Product Grid */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))",
-            gap: "30px"
-          }}
-        >
-          {sortedProducts.map((product) => (
+        {sortedProducts.length === 0 ? (
+          <div style={{ textAlign: "center", padding: "60px 20px", color: "var(--text-medium)" }}>
+            <Sparkles size={48} style={{ opacity: 0.2, margin: "0 auto 16px" }} />
+            <h3 style={{ fontSize: "1.5rem", color: "var(--text-dark)", marginBottom: "8px" }}>No Products Available</h3>
+            <p>We are currently updating our catalog. Please check back later.</p>
+          </div>
+        ) : (
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))",
+              gap: "30px"
+            }}
+          >
+            {sortedProducts.map((product) => (
             <div
               key={product.id}
               style={{
@@ -171,46 +195,54 @@ export default function Shop() {
               }}
               className="shop-card"
             >
-              {/* Image Container */}
-              <div style={{ height: "260px", overflow: "hidden", position: "relative" }}>
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                    transition: "var(--transition-smooth)"
-                  }}
-                  className="card-img"
-                />
-                
-                {product.trending && (
-                  <span
+              {/* Image Container — clickable to product detail */}
+              <Link href={`/shop/${product.slug || product.id}`} style={{ display: "block", textDecoration: "none" }}>
+                <div style={{ height: "260px", overflow: "hidden", position: "relative", cursor: "pointer" }}>
+                  <img
+                    src={product.image}
+                    alt={product.name}
                     style={{
-                      position: "absolute",
-                      top: "16px",
-                      left: "16px",
-                      backgroundColor: "var(--primary-light)",
-                      color: "var(--primary)",
-                      padding: "6px 12px",
-                      borderRadius: "var(--radius-full)",
-                      fontSize: "0.75rem",
-                      fontWeight: "700",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "4px",
-                      border: "1px solid rgba(214, 123, 136, 0.2)"
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      transition: "var(--transition-smooth)"
                     }}
-                  >
-                    <Sparkles style={{ width: "12px", height: "12px" }} /> Trending
-                  </span>
-                )}
-              </div>
+                    className="card-img"
+                  />
+                  
+                  {product.trending && (
+                    <span
+                      style={{
+                        position: "absolute",
+                        top: "16px",
+                        left: "16px",
+                        backgroundColor: "var(--primary-light)",
+                        color: "var(--primary)",
+                        padding: "6px 12px",
+                        borderRadius: "var(--radius-full)",
+                        fontSize: "0.75rem",
+                        fontWeight: "700",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "4px",
+                        border: "1px solid rgba(214, 123, 136, 0.2)"
+                      }}
+                    >
+                      <Sparkles style={{ width: "12px", height: "12px" }} /> Trending
+                    </span>
+                  )}
+                </div>
+              </Link>
 
               {/* Card Body */}
               <div style={{ padding: "24px", display: "flex", flexDirection: "column", flex: 1, gap: "12px" }}>
-                <h3 style={{ fontSize: "1.3rem", fontWeight: "700" }}>{product.name}</h3>
+                <Link href={`/shop/${product.slug || product.id}`} style={{ textDecoration: "none", color: "inherit" }}>
+                  <h3 style={{ fontSize: "1.3rem", fontWeight: "700", cursor: "pointer", transition: "color 0.2s" }}
+                    onMouseEnter={(e) => e.currentTarget.style.color = "var(--primary)"}
+                    onMouseLeave={(e) => e.currentTarget.style.color = "inherit"}>
+                    {product.name}
+                  </h3>
+                </Link>
                 <p style={{ fontSize: "0.88rem", color: "var(--text-medium)", lineHeight: "1.5", flex: 1 }}>
                   {product.description}
                 </p>
@@ -266,6 +298,7 @@ export default function Shop() {
             </div>
           ))}
         </div>
+        )}
       </div>
 
       <style jsx global>{`

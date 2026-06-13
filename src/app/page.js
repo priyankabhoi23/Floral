@@ -6,6 +6,24 @@ import { ArrowRight, Sparkles, Flame, ShieldCheck, Heart, RotateCcw } from "luci
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState("hoodie");
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    setTilt({ x: x * 16, y: y * -16 });
+  };
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+    setTilt({ x: 0, y: 0 });
+  };
 
   const categories = [
     {
@@ -14,7 +32,7 @@ export default function Home() {
       title: "Floral Hoodie",
       subtitle: "Base + name + premium floral",
       price: "₹1,449",
-      image: "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=600&auto=format&fit=crop",
+      image: "/floral_hoodie.png",
       desc: "Soft custom-embroidered hoodies featuring handmade pipe cleaner flower patches, customized text, and metallic accents."
     },
     {
@@ -23,7 +41,7 @@ export default function Home() {
       title: "Resin Keychain",
       subtitle: "Base initial + gold flakes + mini daisies",
       price: "₹549",
-      image: "https://images.unsplash.com/photo-1582139329536-e7284fece509?q=80&w=600&auto=format&fit=crop",
+      image: "/flower_lamp.png",
       desc: "Alphabet resin charms filled with real baby's breath, mini daisies, glitter dust, and premium lobster-clasp hardware."
     },
     {
@@ -109,11 +127,11 @@ export default function Home() {
                 fontFamily: "var(--font-serif)"
               }}
             >
-              Design It.
+              <span className="slide-up-word" style={{ animationDelay: "0.1s", display: "inline-block" }}>Design It.</span>
               <br />
-              <span style={{ color: "var(--primary)" }}>Preview It.</span>
+              <span className="slide-up-word-primary" style={{ animationDelay: "0.25s", display: "inline-block", color: "var(--primary)" }}>Preview It.</span>
               <br />
-              Gift It.
+              <span className="slide-up-word" style={{ animationDelay: "0.4s", display: "inline-block" }}>Gift It.</span>
             </h1>
 
             <p
@@ -165,116 +183,219 @@ export default function Home() {
                 Start Designing <ArrowRight style={{ width: "18px", height: "18px" }} />
               </Link>
               <Link href="/shop" className="btn-secondary" style={{ padding: "14px 32px" }}>
-                Browse Catalog
+                Browse Shop
               </Link>
+            </div>
+
+            {/* Bottom Row Highlights */}
+            <div style={{ display: "flex", alignItems: "center", gap: "24px", marginTop: "24px", flexWrap: "wrap" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "0.9rem", color: "var(--text-medium)", fontWeight: "600" }}>
+                <span style={{ fontSize: "1.1rem" }}>💰</span> Auto Pricing
+              </div>
+              <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "0.9rem", color: "var(--text-medium)", fontWeight: "600" }}>
+                <span style={{ fontSize: "1.1rem" }}>📦</span> Pan-India Delivery
+              </div>
             </div>
           </div>
 
           {/* Hero Right / Showcase Gallery */}
           <div
+            onMouseMove={handleMouseMove}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
             style={{
               position: "relative",
               height: "550px",
+              width: "100%",
               display: "flex",
               justifyContent: "center",
-              alignItems: "center"
+              alignItems: "center",
+              perspective: "1000px",
+              transformStyle: "preserve-3d"
             }}
             className="hero-images animate-fade-in"
           >
-            {/* Main Product Showcase Card */}
-            <div
-              style={{
-                width: "100%",
-                maxWidth: "420px",
-                height: "440px",
-                borderRadius: "var(--radius-lg)",
-                overflow: "hidden",
-                boxShadow: "var(--shadow-lg)",
-                backgroundColor: "white",
-                border: "1px solid var(--border-color)",
-                position: "relative",
-                transition: "all 0.5s ease"
-              }}
-            >
-              <img
-                src={activeData.image}
-                alt={activeData.title}
-                style={{
-                  width: "100%",
-                  height: "65%",
-                  objectFit: "cover"
-                }}
-              />
-              <div style={{ padding: "20px", display: "flex", flexDirection: "column", gap: "8px" }}>
-                <span
-                  style={{
-                    fontSize: "0.75rem",
-                    fontWeight: 700,
-                    color: "var(--primary)",
-                    textTransform: "uppercase"
-                  }}
-                >
-                  Customizable Option
-                </span>
-                <h3 style={{ fontSize: "1.3rem", fontWeight: "700" }}>{activeData.title}</h3>
-                <p style={{ fontSize: "0.85rem", color: "var(--text-medium)", lineHeight: "1.4" }}>
-                  {activeData.desc}
-                </p>
-              </div>
-            </div>
-
-            {/* Live Pricing Tooltip Badge (Matching screenshot) */}
+            {/* Soft decorative background circles */}
             <div
               style={{
                 position: "absolute",
+                width: "280px",
+                height: "280px",
+                borderRadius: "50%",
+                background: "rgba(214, 123, 136, 0.08)",
+                filter: "blur(40px)",
                 top: "40px",
-                right: "-20px",
-                backgroundColor: "white",
-                padding: "16px 20px",
-                borderRadius: "var(--radius-md)",
-                boxShadow: "var(--shadow-md)",
-                border: "1px solid var(--border-color)",
-                maxWidth: "240px",
-                display: "flex",
-                flexDirection: "column",
-                gap: "4px",
-                zIndex: 10
+                right: "40px",
+                zIndex: 0,
+                transform: `rotateY(${tilt.x * 0.4}deg) rotateX(${tilt.y * 0.4}deg) translateZ(-20px)`,
+                transition: isHovered ? "none" : "transform 0.5s ease"
               }}
-              className="pulse-slow"
+            />
+            <div
+              style={{
+                position: "absolute",
+                width: "200px",
+                height: "200px",
+                borderRadius: "50%",
+                background: "rgba(229, 142, 151, 0.06)",
+                filter: "blur(30px)",
+                bottom: "60px",
+                left: "20px",
+                zIndex: 0,
+                transform: `rotateY(${tilt.x * 0.3}deg) rotateX(${tilt.y * 0.3}deg) translateZ(-30px)`,
+                transition: isHovered ? "none" : "transform 0.5s ease"
+              }}
+            />
+
+            {/* Main Product Showcase Card (Top Right) */}
+            <div
+              className="float-slow"
+              style={{
+                position: "absolute",
+                top: "30px",
+                right: "20px",
+                width: "320px",
+                height: "380px",
+                zIndex: 1,
+                transform: `rotateY(${tilt.x}deg) rotateX(${tilt.y}deg) translateZ(30px)`,
+                transformStyle: "preserve-3d",
+                transition: isHovered ? "none" : "transform 0.5s cubic-bezier(0.16, 1, 0.3, 1)"
+              }}
             >
-              <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "0.8rem", color: "var(--text-medium)" }}>
-                <span>🌸</span>
-                <span>{activeData.title} — Live price</span>
+              <div
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  borderRadius: "32px",
+                  overflow: "hidden",
+                  boxShadow: "var(--shadow-lg)",
+                  border: "1px solid rgba(214, 123, 136, 0.1)",
+                  backgroundColor: "white"
+                }}
+              >
+                <img
+                  key={activeTab}
+                  src={activeData.image}
+                  alt={activeData.title}
+                  className="image-enter"
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover"
+                  }}
+                />
               </div>
-              <span style={{ fontSize: "1.6rem", fontWeight: "700", color: "var(--text-dark)", fontFamily: "var(--font-serif)" }}>
-                {activeData.price}
-              </span>
-              <span style={{ fontSize: "0.7rem", color: "var(--primary)", fontWeight: "600" }}>
-                {activeData.subtitle} ✨
-              </span>
             </div>
 
-            {/* Sub-badge: Trending this week Resin Keychains (Matching screenshot) */}
+            {/* Secondary Product Showcase Card (Bottom Left, overlapping) */}
             <div
+              className="float-medium"
               style={{
                 position: "absolute",
                 bottom: "40px",
-                left: "-20px",
-                backgroundColor: "var(--primary-light)",
-                padding: "12px 20px",
-                borderRadius: "var(--radius-md)",
-                boxShadow: "var(--shadow-md)",
-                border: "1px solid rgba(214, 123, 136, 0.2)",
-                zIndex: 10,
-                display: "flex",
-                alignItems: "center",
-                gap: "10px"
+                left: "20px",
+                width: "220px",
+                height: "240px",
+                zIndex: 2,
+                transform: `rotateY(${tilt.x * 1.3}deg) rotateX(${tilt.y * 1.3}deg) translateZ(60px)`,
+                transformStyle: "preserve-3d",
+                transition: isHovered ? "none" : "transform 0.5s cubic-bezier(0.16, 1, 0.3, 1)"
               }}
             >
-              <Flame style={{ color: "var(--primary)", width: "20px", height: "20px" }} fill="var(--primary)" />
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <span style={{ fontSize: "0.75rem", color: "var(--primary)", fontWeight: "700" }}>Trending this week</span>
-                <span style={{ fontSize: "0.85rem", fontWeight: "600", color: "var(--text-dark)" }}>Resin Keychains</span>
+              <div
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  borderRadius: "28px",
+                  overflow: "hidden",
+                  boxShadow: "var(--shadow-md)",
+                  border: "6px solid #FFFFFF",
+                  backgroundColor: "white"
+                }}
+              >
+                <img
+                  src={
+                    activeTab === "keychain"
+                      ? "https://images.unsplash.com/photo-1561181286-d3fee7d55364?q=80&w=800&auto=format&fit=crop" // Bouquet image
+                      : "/flower_lamp.png" // Keychain image
+                  }
+                  alt="Secondary Featured Product"
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover"
+                  }}
+                />
+              </div>
+            </div>
+
+            {/* Live Pricing Tooltip Badge (Overlapping both in center-left) */}
+            <div
+              className="float-fast"
+              style={{
+                position: "absolute",
+                top: "180px",
+                left: "40px",
+                zIndex: 3,
+                transform: `rotateY(${tilt.x * 1.6}deg) rotateX(${tilt.y * 1.6}deg) translateZ(95px)`,
+                transition: isHovered ? "none" : "transform 0.5s cubic-bezier(0.16, 1, 0.3, 1)"
+              }}
+            >
+              <div
+                style={{
+                  backgroundColor: "white",
+                  padding: "16px 20px",
+                  borderRadius: "var(--radius-md)",
+                  boxShadow: "var(--shadow-md)",
+                  border: "1px solid var(--border-color)",
+                  minWidth: "200px",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "4px"
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "0.8rem", color: "var(--text-medium)" }}>
+                  <span>🌸</span>
+                  <span style={{ fontWeight: "600" }}>{activeData.title} — Live price</span>
+                </div>
+                <span style={{ fontSize: "1.6rem", fontWeight: "700", color: "var(--text-dark)", fontFamily: "var(--font-serif)", marginTop: "2px" }}>
+                  {activeData.price}
+                </span>
+                <span style={{ fontSize: "0.75rem", color: "var(--primary)", fontWeight: "600" }}>
+                  {activeData.subtitle} ✨
+                </span>
+              </div>
+            </div>
+
+            {/* Sub-badge: Trending this week Resin Keychains (Bottom Right) */}
+            <div
+              className="float-slow"
+              style={{
+                position: "absolute",
+                bottom: "80px",
+                right: "10px",
+                zIndex: 3,
+                transform: `rotateY(${tilt.x * 1.4}deg) rotateX(${tilt.y * 1.4}deg) translateZ(80px)`,
+                transition: isHovered ? "none" : "transform 0.5s cubic-bezier(0.16, 1, 0.3, 1)"
+              }}
+            >
+              <div
+                style={{
+                  backgroundColor: "var(--primary-light)",
+                  padding: "12px 20px",
+                  borderRadius: "var(--radius-md)",
+                  boxShadow: "var(--shadow-md)",
+                  border: "1px solid rgba(214, 123, 136, 0.2)",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "10px"
+                }}
+              >
+                <Flame style={{ color: "var(--primary)", width: "20px", height: "20px" }} fill="var(--primary)" />
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                  <span style={{ fontSize: "0.75rem", color: "var(--primary)", fontWeight: "700" }}>Trending this week</span>
+                  <span style={{ fontSize: "0.85rem", fontWeight: "600", color: "var(--text-dark)" }}>Floral hoodie</span>
+                </div>
               </div>
             </div>
           </div>
@@ -462,6 +583,30 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Manage Cookies Widget (Matching screenshot) */}
+      <div
+        style={{
+          position: "fixed",
+          bottom: "24px",
+          left: "24px",
+          backgroundColor: "#1C1917",
+          color: "white",
+          padding: "12px 20px",
+          borderRadius: "var(--radius-full)",
+          fontSize: "0.85rem",
+          fontWeight: "600",
+          cursor: "pointer",
+          boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
+          zIndex: 40,
+          display: "flex",
+          alignItems: "center",
+          gap: "8px"
+        }}
+        onClick={() => alert("Cookie settings panel coming soon!")}
+      >
+        Manage cookies or opt out
+      </div>
 
       {/* Floating Support Question Mark Widget (Matching screenshot) */}
       <div
